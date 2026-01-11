@@ -147,6 +147,71 @@ cd your-project
 
 ---
 
+## 在新电脑上使用
+
+### 克隆技能库到本地
+
+在新电脑环境中，可以直接克隆 GitHub 仓库到本地的 skills 目录：
+
+**方法 1：直接克隆（推荐）**
+```bash
+git clone git@github.com:ckfgtd/docs.git ~/.claude/skills
+```
+
+**方法 2：先克隆再复制**
+```bash
+# 克隆到临时目录
+git clone git@github.com:ckfgtd/docs.git /tmp/docs-skills
+
+# 复制到 skills 目录
+mkdir -p ~/.claude/skills
+cp -r /tmp/docs-skills/* ~/.claude/skills/
+```
+
+### 验证技能是否加载
+
+克隆完成后，检查文件是否存在：
+```bash
+ls -la ~/.claude/skills/
+```
+
+应该看到以下技能文件：
+- `problem-solver.md`
+- `multi-thinker-brainstorm.md`
+- `multi-thinker-debate.md`
+- `git-master.md`
+- `auto-qa.md`
+- `project-analyst.md`
+- `project-init.md`
+
+### 测试技能
+
+在 Claude Code 中使用技能的触发词测试：
+```bash
+"脑暴一下：设计一个新功能"
+"三方辩论：React vs Vue"
+"如何优化代码性能"
+```
+
+### 注意事项
+
+⚠️ **可能需要重启 Claude Code**
+
+如果技能没有立即生效：
+1. 关闭 Claude Code
+2. 重新打开 Claude Code
+3. 技能会被自动加载
+
+### 更新技能库
+
+如果原电脑更新了技能，在新电脑上拉取最新版本：
+```bash
+cd ~/.claude/skills
+git pull
+```
+
+---
+
 ## 目录结构
 
 ```
