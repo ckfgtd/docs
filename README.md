@@ -212,6 +212,81 @@ git pull
 
 ---
 
+## 配置文件说明
+
+本仓库包含两个重要的配置文件，用于优化 Claude Code 的使用体验：
+
+### 配置文件位置
+
+```
+config/
+├── instructions.md          # 全局指令配置
+└── settings.local.json      # 权限配置示例
+```
+
+### instructions.md - 全局指令
+
+此文件包含 Claude Code 的全局行为规则：
+
+**主要配置：**
+
+1. **语言要求**：所有反馈使用中文简体
+2. **效率优化**：优先考虑减少 token 和上下文消耗
+3. **工具选择**：优先使用 Bash 工具（cat、grep、find、sed、awk）而非专用工具
+4. **配置说明**：SSH 密钥已配置，Git 默认使用 SSH 方式
+
+**使用方法：**
+
+```bash
+# 复制到 Claude Code 配置目录
+cp config/instructions.md ~/.claude/instructions.md
+```
+
+### settings.local.json - 权限配置
+
+此文件展示了本技能库所需的权限配置示例。
+
+**主要权限：**
+
+- Read: `/home/kfc/**`
+- Write: `/home/kfc/software/**`, `/home/kfc/.claude/**`, `/tmp/**`
+- Bash: git、npm、node、python3、cat、grep、find 等
+
+**使用方法：**
+
+```bash
+# 备份现有配置（如果存在）
+cp ~/.claude/settings.local.json ~/.claude/settings.local.json.backup
+
+# 合并权限配置（需要手动编辑）
+cat config/settings.local.json >> ~/.claude/settings.local.json
+```
+
+### 配置验证
+
+配置完成后，验证文件是否正确：
+
+```bash
+# 检查全局指令
+cat ~/.claude/instructions.md
+
+# 检查权限配置
+cat ~/.claude/settings.local.json
+```
+
+### 自定义配置
+
+根据你的需求修改 `instructions.md`：
+
+```markdown
+# 添加你的自定义规则
+- 特定项目的命名规范
+- 首选的编程语言或框架
+- 代码风格要求
+```
+
+---
+
 ## 目录结构
 
 ```
@@ -228,12 +303,17 @@ skills/
 ├── 辅助工具
 │   └── setup-project-permissions.sh  🔐 权限配置
 │
-└── 指南文档
-    ├── SKILLS-ECOSYSTEM.md           📚 技能生态总览
-    ├── MULTI-THINKER-GUIDE.md        📖 思维技能指南
-    ├── PERMISSION-GUIDE.md           🔐 权限管理详解
-    ├── EXAMPLES.md                   📝 使用示例
-    └── auto-qa-examples.md           🧪 测试示例
+├── 指南文档
+│   ├── SKILLS-ECOSYSTEM.md           📚 技能生态总览
+│   ├── MULTI-THINKER-GUIDE.md        📖 思维技能指南
+│   ├── PERMISSION-GUIDE.md           🔐 权限管理详解
+│   ├── EXAMPLES.md                   📝 使用示例
+│   └── auto-qa-examples.md           🧪 测试示例
+│
+└── 配置文件
+    └── config/
+        ├── instructions.md           📝 全局指令
+        └── settings.local.json       ⚙️  权限配置示例
 ```
 
 ---

@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/kfc/**)",
+      "Write(//home/kfc/software/**)",
+      "Write(//home/kfc/.claude/**)",
+      "Write(//tmp/**)",
+      "Bash(chmod:*)",
+      "Bash(./run-navigation-test.sh:*)",
+      "Bash(node:*)",
+      "Bash(curl:*)",
+      "Bash(xargs:*)",
+      "Bash(timeout:*)",
+      "Bash(ls:*)",
+      "Bash(tee:*)",
+      "Bash(npm install:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(tree:*)",
+      "Bash(mkdir:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm create:*)",
+      "Bash(npx:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)"
+    ],
+    "deny": [
+      "Write(//home/kfc/.ssh/**)",
+      "Write(//home/kfc/.gnupg/**)",
+      "Write(//etc/**)",
+      "Write(//usr/**)",
+      "Write(//root/**)"
+    ],
+    "ask": [
+      "Write(//home/kfc/.config/**)"
+    ]
+  }
+}
