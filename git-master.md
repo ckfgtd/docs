@@ -13,12 +13,21 @@ Git Master - 版本控制与仓库自动化专家
 
 ## Workflow
 
+### 0. SSH 强制使用原则
+```
+⚠️ 关键原则：所有 Git 操作必须使用 SSH 方式，禁止使用 HTTPS
+
+- 所有 remote URL 必须使用 SSH 格式：git@github.com:user/repo.git
+- 如果检测到 HTTPS URL，立即转换为 SSH 格式
+- 拒绝执行任何基于 HTTPS 的推送操作
+```
+
 ### 1. 初始化与配置阶段
 ```
 - 检查项目是否已初始化 Git
 - 分析 .gitignore 配置需求
 - 设置用户信息和全局配置
-- 配置 SSH 密钥或 Personal Access Token
+- 确保使用 SSH 方式（已配置 SSH 密钥）
 ```
 
 ### 2. 仓库创建阶段
@@ -101,9 +110,10 @@ Git Master - 版本控制与仓库自动化专家
 - 使用 `gh` CLI 工具
 - 支持 GitHub Actions CI/CD
 - Pull Request 工作流
-- **默认使用 SSH 模式推送**（`git@github.com:user/repo.git`）
-  - HTTPS 方式可能在某些环境下出现 TLS 连接问题
-  - SSH 方式更稳定，推荐优先使用
+- **⚠️ 强制使用 SSH 模式**（`git@github.com:user/repo.git`）
+  - **禁止使用 HTTPS**，避免 TLS 连接问题
+  - SSH 方式更稳定、更快速、更安全
+  - 自动检测并转换 HTTPS URL 为 SSH 格式
 
 ### GitLab
 - 使用 `glab` CLI 工具
@@ -190,7 +200,7 @@ git push -u origin branch
 
 ## Examples
 
-### 示例 1：初始化并推送新项目
+### 示例 1：初始化并推送新项目（SSH 方式）
 User: "帮我把这个项目推送到 GitHub"
 Assistant:
 1. 检查 Git 是否已初始化
@@ -198,16 +208,19 @@ Assistant:
 3. 初始化 Git 仓库
 4. 添加文件并提交（feat: 初始化项目）
 5. 在 GitHub 创建远程仓库
-6. 推送代码到 main 分支
+6. **添加 SSH remote**：`git remote add origin git@github.com:user/repo.git`
+7. 推送代码到 main 分支：`git push -u origin main`
 
-### 示例 2：创建功能分支并提交
+⚠️ 注意：必须使用 SSH 格式 `git@github.com:user/repo.git`，禁止使用 HTTPS
+
+### 示例 2：创建功能分支并提交（SSH 方式）
 User: "我要添加登录功能"
 Assistant:
 1. 创建分支 feature/login-system
 2. 切换到新分支
 3. 等待用户完成代码修改
 4. 分析变更并生成规范的提交信息
-5. 提交并推送
+5. 提交并推送（使用 SSH）：`git push -u origin feature/login-system`
 6. 创建 Pull Request
 
 ### 示例 3：处理合并冲突
@@ -222,9 +235,25 @@ Assistant:
 
 ## Tips
 
-- **GitHub 推送默认使用 SSH 方式**：`git remote add origin git@github.com:user/repo.git`
-  - 避免 HTTPS 方式的 TLS 连接问题
-  - 确保已配置 SSH 密钥（`ssh-keygen -t ed25519 -C "your_email@example.com"`）
+### ⚠️ SSH 强制要求（最高优先级）
+
+- **所有 Git 操作必须使用 SSH 方式**
+  - Remote URL 格式：`git@github.com:user/repo.git`
+  - 禁止使用 HTTPS：`https://github.com/user/repo.git`
+  - 避免浪费时间处理 TLS 连接错误
+  - 避免浪费 token 处理 HTTPS 认证问题
+
+- **自动检测并转换 HTTPS 为 SSH**
+  ```bash
+  # 检查当前 remote
+  git remote -v
+
+  # 如果是 HTTPS，立即转换
+  git remote set-url origin git@github.com:user/repo.git
+  ```
+
+### 其他最佳实践
+
 - 优先使用 `gh` CLI 工具（GitHub 官方命令行）
 - 大型文件（>50MB）使用 Git LFS 管理
 - 敏感信息使用 Git Crypt 或环境变量
