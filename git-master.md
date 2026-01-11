@@ -101,6 +101,9 @@ Git Master - 版本控制与仓库自动化专家
 - 使用 `gh` CLI 工具
 - 支持 GitHub Actions CI/CD
 - Pull Request 工作流
+- **默认使用 SSH 模式推送**（`git@github.com:user/repo.git`）
+  - HTTPS 方式可能在某些环境下出现 TLS 连接问题
+  - SSH 方式更稳定，推荐优先使用
 
 ### GitLab
 - 使用 `glab` CLI 工具
@@ -219,6 +222,9 @@ Assistant:
 
 ## Tips
 
+- **GitHub 推送默认使用 SSH 方式**：`git remote add origin git@github.com:user/repo.git`
+  - 避免 HTTPS 方式的 TLS 连接问题
+  - 确保已配置 SSH 密钥（`ssh-keygen -t ed25519 -C "your_email@example.com"`）
 - 优先使用 `gh` CLI 工具（GitHub 官方命令行）
 - 大型文件（>50MB）使用 Git LFS 管理
 - 敏感信息使用 Git Crypt 或环境变量
